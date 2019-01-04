@@ -1,0 +1,29 @@
+{
+    "name": "wifi-virtual",
+    "dbname": "/usr/local/wifi.db",
+    "dbtype": "sqlite3",
+    "tbname": "record",
+    "timestamp": "2018-10-19",
+    "data": [
+        {
+            "mac": "00:11:22:33:44:55",
+            "ip": "192.168.8.89",
+            "oline": "16:43",
+            "active": "17:00",
+            "num": "1",
+            "type": "qq",
+            "len": "8",
+            "value": "12345678"
+        },
+        {
+            "mac": "00:11:22:33:44:55",
+            "ip": "192.168.8.89",
+            "oline": "16:43",
+            "active": "17:00",
+            "num": "1",
+            "type": "wechat",
+            "len": "8",
+            "value": "87654321"
+        }
+    ]
+}

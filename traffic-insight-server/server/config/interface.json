@@ -1,0 +1,8 @@
+{
+    "name": "listen-if",
+    "interface": [
+        {
+            "if-name": "br-lan"
+        }
+    ]
+}

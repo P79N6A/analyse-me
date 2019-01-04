@@ -1,0 +1,51 @@
+{
+    "name": "nidsnetfilter",
+    "desc": "This is a simple filter",
+    "vserion": "1.0",
+    "time": "2018-9-29",
+    "interface": "br-lan",
+    "tcp": [
+        {
+            "dstport": "23",
+            "srcport": "any",
+            "dstaddr": "any",
+            "srcaddr": "any",
+            "action": "drop",
+            "introduce": "telnet"
+        },
+        {
+            "dstport": "23",
+            "srcport": "any",
+            "dstaddr": "any",
+            "srcaddr": "any",
+            "action": "drop",
+            "introduce": "ssh"
+        }
+    ],
+    "udp": [
+        {
+            "dstport": "53",
+            "srcport": "any",
+            "action": "drop",
+            "dstaddr": "any",
+            "srcaddr": "any",
+            "introduce": "dns"
+        },
+        {
+            "dstport": "any",
+            "srcport": "53",
+            "action": "drop",
+            "dstaddr": "any",
+            "srcaddr": "any",
+            "introduce": "dns"
+        },
+        {
+            "dstport": "any",
+            "srcport": "any",
+            "action": "drop",
+            "dstaddr": "255.255.255.255",
+            "srcaddr": "any",
+            "introduce": "broad"
+        }
+    ]
+}

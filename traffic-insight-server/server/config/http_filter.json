@@ -1,0 +1,41 @@
+{
+    "name": "http_filter",
+    "rule": [
+        {
+            "suffix": ".js"
+        },
+        {
+            "suffix": ".css"
+        },
+        {
+            "suffix": ".png"
+        },
+        {
+            "suffix": ".jpg"
+        },
+        {
+            "suffix": ".swf"
+        },
+        {
+            "suffix": ".apk"
+        },
+        {
+            "suffix": ".flash"
+        },
+        {
+            "suffix": ".mp4"
+        },
+        {
+            "suffix": ".mp3"
+        },
+        {
+            "suffix": ".ico"
+        },
+        {
+            "suffix": ".cgi"
+        },
+        {
+            "suffix": ".vcdiff"
+        }
+    ]
+}
