@@ -11,6 +11,8 @@
 #include "cJSON.h"
 #include "log.h"
 #include "snort_email.h"
+
+#ifndef TRAFFIC_CMCC
 #include <cencode.h>
 #include <cdecode.h>
 #include <iconv.h>
@@ -1698,3 +1700,4 @@ int parse_email(char *strFileName,ENUM_EMAIL_TYPE type,void *pstEmail)
     return ret;
 }
 
+#endif

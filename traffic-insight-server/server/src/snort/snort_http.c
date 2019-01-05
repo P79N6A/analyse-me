@@ -5,7 +5,7 @@
  * @Last Modified time: 2018-10-29 20:59:32
  */
 #include "snort_http.h"
-#include "http_parser.h"
+
 #include <assert.h>
 #include "snort_file.h"
 #include "list.h"
@@ -13,7 +13,8 @@
 #include "protocol.h"
 #include "cJSON.h"
 #include "log.h"
-
+#ifndef TRAFFIC_CMCC
+#include "http_parser.h"
 #undef TRUE
 #define TRUE 1
 #undef FALSE
@@ -495,7 +496,8 @@ int http_filter_init(void)
 	return RET_SUCCESS;
 }
 int http_insight_init(void *loop)
-{
+{	
+	#ifndef TRAFFIC_CMCC
 	unsigned long version;
 	unsigned major;
 	unsigned minor;
@@ -523,6 +525,8 @@ int http_insight_init(void *loop)
 
 	ev_timer_init(&http_watcher, record_http_cb, 0, 7);
 	ev_timer_start(loop, &http_watcher);
+	#endif
+	
     return RET_SUCCESS;
 }
 /**
@@ -872,3 +876,14 @@ int do_insight_http(void *data,int slDataLen,int slProtocol,
 	}
     return RET_FAILED;
 }
+#else
+int do_insight_http(void *data,int slDataLen,int slProtocol,
+	struct tuple4 *addr,struct ethhdr *pstEthInfo,int direction,NIDS_CONNTRACK_RECORD *pstConn)
+{
+	return RET_FAILED;
+}
+int http_insight_init(void *loop)
+{
+	
+}
+#endif

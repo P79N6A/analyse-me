@@ -9,9 +9,12 @@
 
 static int do_url_action(int actionType,void *data)
 {
+    #ifndef TRAFFIC_CMCC
     //m_priv_t *pstPri	= ( m_priv_t *)data;
     printf("Get http data stream \n");
     return start_insight_http(data);
+    #endif
+    return RET_FAILED;
 }
 
 PROTOCOL_CONTORL_INFO stHttpCtrlInfo = {

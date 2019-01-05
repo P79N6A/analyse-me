@@ -1,7 +1,7 @@
 #ifndef _LIST_H_
 #define _LIST_H_
 
-#if 0
+#if 1
 #include <stddef.h>
 
 #define LIST_POISON1  NULL

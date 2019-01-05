@@ -9,9 +9,12 @@
 #include "protocol.h"
 #include "record_db.h"
 
+#ifndef TRAFFIC_CMCC
 #include <libubus.h>
 #include <libubox/blobmsg_json.h>
 #include <libubox/blobmsg.h>
+#endif
+
 #include "cJSON.h"
 #include "snort_http.h"
 #include "ipc.h"
@@ -23,10 +26,13 @@
 #define RECORD_UPDATE_TIME   5
 #define TIME_5_HOURS         (5 * 60 * 60)
 
-static struct blob_buf ubusMsg;
+
 static int slUseDataBase = 1;
 //static int virtual_ubus_init(struct ev_loop *loop);
 static void record_data_cb(struct ev_loop *loop, ev_timer *watcher, int revents);
+
+#ifndef TRAFFIC_CMCC
+static struct blob_buf ubusMsg;
 static int ubus_log(struct ubus_context *ctx, struct ubus_object *obj,
 		      struct ubus_request_data *req, const char *method,
 		      struct blob_attr *msg);
@@ -40,6 +46,7 @@ static int virtual_get_url(struct ubus_context *ctx, struct ubus_object *obj,
 static int virtual_get_email(struct ubus_context *ctx, struct ubus_object *obj,
 		      struct ubus_request_data *req, const char *method,
 		      struct blob_attr *msg);
+#endif
 
 static ev_io    ubus_watcher;
 static ev_timer tm_watcher;
@@ -47,6 +54,7 @@ static struct ubus_context *gctx;
 
 static struct list_head stTerminal[TERMINAL_HASH_SIZE];
 
+#ifndef TRAFFIC_CMCC
 enum {
 	LOG_ENABLE = 0,
 	__LOG_MAX
@@ -202,7 +210,8 @@ static const struct blobmsg_policy term_email_policy[] = {
 	[_EMAIL_INFO_ATTACH] 	= { .name = "attach", 	.type = BLOBMSG_TYPE_STRING},
 };
 
-              
+#endif
+          
 int record_init(struct ev_loop *loop)
 {
     int i = 0;
@@ -233,8 +242,10 @@ int record_init(struct ev_loop *loop)
 
 static void ev_read_cb(struct ev_loop *loop, ev_io *w, int revents)
 {
+	#ifndef TRAFFIC_CMCC
 	struct ubus_context *ctx = (struct ubus_context *)w->data;
 	ubus_handle_event(ctx);
+	#endif
 }
 
 /**
@@ -245,6 +256,7 @@ static void ev_read_cb(struct ev_loop *loop, ev_io *w, int revents)
  */
 int virtual_ubus_init(struct ev_loop *loop)
 {
+	#ifndef TRAFFIC_CMCC
     int ret = RET_FAILED;
 	gctx = ubus_connect(NULL);
 	if (!gctx) {
@@ -261,10 +273,11 @@ int virtual_ubus_init(struct ev_loop *loop)
     setnonblocking(gctx->sock.fd);
     ev_io_init(&ubus_watcher, ev_read_cb, gctx->sock.fd, EV_READ);
 	ev_io_start(loop, &ubus_watcher);
+	#endif
 
     return RET_SUCCESS;
 }
-
+#ifndef TRAFFIC_CMCC
 static int do_create_ubusmsg(const unsigned char *ucMacAddr,uint32_t ulIp,char * onlineTime,char * activeTime,
 							 ACCOUNT_TYPE_INFO *pstAccountInfo,struct blob_buf *buf)
 {
@@ -361,6 +374,7 @@ static int do_update_datebase(const TERM_RECORD_INFO *pstOptionTmp,struct blob_b
 	
 	return RET_SUCCESS;
 }
+#endif
 static int do_create_virtual_notify(const TERM_RECORD_INFO *pstOptionTmp,IPC_DATA_TYPE *buf)
 {
 	int j = 0,flag = 0;
@@ -540,6 +554,7 @@ static void record_data_cb(struct ev_loop *loop, ev_timer *watcher, int revents)
 	
 	#endif
 }
+#ifndef TRAFFIC_CMCC
 void do_create_urlmsg(HTTP_URL_INFO *pstOptionTmp,struct blob_buf *buf)
 {
 	void *tbl;		
@@ -566,9 +581,13 @@ void do_create_urlmsg(HTTP_URL_INFO *pstOptionTmp,struct blob_buf *buf)
 	//return RET_SUCCESS;
 
 }
+#endif
+
+
 
 void record_http_cb(struct ev_loop *loop, ev_timer *watcher, int revents)
 {	
+	#ifndef TRAFFIC_CMCC
 	int slDataAccount = 0;
 	struct list_head *pstHttpList = watcher->data;
 	HTTP_URL_INFO *pstOptionTmp = NULL;
@@ -664,6 +683,7 @@ void record_http_cb(struct ev_loop *loop, ev_timer *watcher, int revents)
 		pstNotify = NULL;
 	}
 	
+	#endif
 	#endif
 }
 static TERM_RECORD_INFO *find_term_byhash(unsigned char *mac)
@@ -800,7 +820,7 @@ int do_record_data(void *data,int len,void *pri)
 }
 
 extern int syslog_en;
-
+#ifndef TRAFFIC_CMCC
 static int ubus_log(struct ubus_context *ctx, struct ubus_object *obj,
 		      struct ubus_request_data *req, const char *method,
 		      struct blob_attr *msg)
@@ -1252,6 +1272,7 @@ static int virtual_get_url(struct ubus_context *ctx, struct ubus_object *obj,
 
 	return RET_SUCCESS;
 }
+#endif
 
 void record_virtual_data(void *data,int slDataLen)
 {
@@ -1264,10 +1285,16 @@ void record_virtual_data(void *data,int slDataLen)
 	int slNum                    = slValidDataLen / sizeof(VIRTUAL_IPC_DATA);
 	INFO("Now need handle virtual info slDataLen %d %d %d slNum %d \n",slDataLen,pstInsight->slDataLen,sizeof(VIRTUAL_IPC_DATA),slNum);
 
+	#ifndef TRAFFIC_CMCC
 	void *array;
 	blob_buf_init(&ubusMsg, 0);
 	array = blobmsg_open_array(&ubusMsg, term_broad_policy[_TREMINAL_BROAD].name);
-
+	#endif
+	uint32_t ip = 0;
+	char strBuf[128] = {0};
+	char timestamp[128] = {0};
+	
+	printf("id \t mac \t\t\t ip\t\t     num    type    online\t\t\tactive\t\t\t value\n");
 	for(i = 0;i < slNum;i++,pstIpcData++)
 	{
 		bzero(&stUpdateEntry,sizeof(stUpdateEntry));
@@ -1275,22 +1302,39 @@ void record_virtual_data(void *data,int slDataLen)
 		stTermInfo.ulIPAddr = pstIpcData->ulIp;
 		memcpy(stTermInfo.ucMacAddr,pstIpcData->ucMac,6);
 
+		bzero(strBuf,sizeof(strBuf));
+		bzero(timestamp,sizeof(timestamp));
+		
+		snprintf(strBuf,sizeof(strBuf),"%02x:%02x:%02x:%02x:%02x:%02x",
+		stTermInfo.ucMacAddr[0],stTermInfo.ucMacAddr[1],stTermInfo.ucMacAddr[2],
+		stTermInfo.ucMacAddr[3],stTermInfo.ucMacAddr[4],stTermInfo.ucMacAddr[5]);
+		ip = htonl(stTermInfo.ulIPAddr);
+		strftime(timestamp,128,"%Y-%m-%d %H:%M:%S",localtime(&stTermInfo.stTimeStamp));
+
+		printf("%d \t %s  \t %-20s %d     %-8s%-20s \t%-20s \t%-20s \n",i + 1,
+		strBuf, 
+		int_ntoa(ip),pstIpcData->stAccountInfo.num,pstIpcData->stAccountInfo.strType,
+		timestamp,timestamp,pstIpcData->stAccountInfo.value);
+		
+		#ifndef TRAFFIC_CMCC
 		do_update_terminal(&stTermInfo,&pstIpcData->stAccountInfo,&stUpdateEntry);
 		do_create_ubusmsg(stTermInfo.ucMacAddr,stTermInfo.ulIPAddr,
 			stUpdateEntry.strOnlineTime,stUpdateEntry.strActiveTime,&pstIpcData->stAccountInfo,&ubusMsg);
+		#endif
 	}
-
+	#ifndef TRAFFIC_CMCC
 	blobmsg_close_array(&ubusMsg, array);
 	blobmsg_add_u32(&ubusMsg, term_broad_policy[_TREMINAL_COUNT].name, slNum);
 
 	int err = ubus_notify(gctx,  &stVirtualObj, term_broad_policy[_TREMINAL_URL].name, ubusMsg.head, -1); /*do not expect a response*/
 	if (err)
 		WARNING( "Notify failed: %s\n", ubus_strerror(err));
-	
+	#endif
 
 }
 void record_http_data(void *data,int slDataLen)
 {
+	#ifndef TRAFFIC_CMCC
 	int i = 0;
 	IPC_DATA_TYPE *pstInsight 	 = (IPC_DATA_TYPE *)data;
 	HTTP_URL_INFO *pstNotifyUrl  = (HTTP_URL_INFO *)pstInsight->ucData;
@@ -1313,7 +1357,7 @@ void record_http_data(void *data,int slDataLen)
 	int err = ubus_notify(gctx,  &stVirtualObj, term_broad_policy[_TREMINAL_URL].name, ubusMsg.head, -1); /*do not expect a response*/
 	if (err)
 		WARNING( "Notify failed: %s\n", ubus_strerror(err));
-
+	#endif
 }
 /**
  * @brief 
@@ -1324,6 +1368,7 @@ void record_http_data(void *data,int slDataLen)
  */
 void record_email_data(void *data,int slDataLen)
 {
+ 	#ifndef TRAFFIC_CMCC
 	IPC_DATA_TYPE *pstInsight 	  = (IPC_DATA_TYPE *)data;
 	EMAIL_INSIGHT_IPC *pstNotify  = (EMAIL_INSIGHT_IPC *)pstInsight->ucData;
 	SMTP_PARSE_INFO stEmailInfo;
@@ -1396,11 +1441,14 @@ void record_email_data(void *data,int slDataLen)
 	int err = ubus_notify(gctx,  &stVirtualObj, term_broad_policy[_TREMINAL_EMAIL].name, ubusMsg.head, -1); /*do not expect a response*/
 	if (err)
 		WARNING( "Notify failed: %s\n", ubus_strerror(err));
+	#endif
+
 }
 int email_test(void)
 {
+	#ifndef TRAFFIC_CMCC
 	SMTP_PARSE_INFO stEmailInfo;
     bzero(&stEmailInfo,sizeof(stEmailInfo));
 	return parse_email("/tmp/email_tmp/email_1c1b0dacca3d_16-20-25",_EMAIL_IMAP,&stEmailInfo);
-	
-}
+	#endif
+}	

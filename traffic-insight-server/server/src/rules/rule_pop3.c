@@ -10,9 +10,12 @@
 
 static int do_pop_action(int actionType,void *data)
 {
+    #ifndef TRAFFIC_CMCC
     //m_priv_t *pstPri	= ( m_priv_t *)data;
     printf("Get pop start  data stream \n");
-     return do_start_pop(data);
+    return do_start_pop(data);
+    #endif
+    return RET_FAILED;
 }
 
 PROTOCOL_CONTORL_INFO stPOPCtrlInfo = {

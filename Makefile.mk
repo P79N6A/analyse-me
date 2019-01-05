@@ -14,7 +14,6 @@ INSTALL_HEADER      :=$(INSTALL_ROOT)/include
 INSTALL_BIN         :=$(INSTALL_ROOT)/bin
 INSTALL_CONFIG      :=$(INSTALL_ROOT)/config
 
-CFLAGS 				:=-Wall -Wstrict-prototypes -Wwrite-strings  \
-						-Winit-self -Wcast-align -Wformat=2  -Wundef  -D _COMPILE_MAIN_ -D _GNU_SOURCE  -g
+CFLAGS 				:=-Wall  -Winit-self -Wcast-align -Wformat=2 -D _COMPILE_MAIN_ -D _GNU_SOURCE 
 #LDFLAGS 			:= -lev -lnids  -lpcap -lm  -L$(STAGING_DIR)/usr/lib -lhttp_parser -L$(STAGING_DIR)/usr/lib/libnet-1.2.x/lib -lnet -lubus -lubox -lsqlite3 -lblobmsg_json -lb64 -liconv
-export CC AR LD STRIP INSTALL_LIB INSTALL_HEADER INSTALL_BIN CFLAGS
+export CC AR LD STRIP INSTALL_LIB INSTALL_HEADER INSTALL_BIN INSTALL_CONFIG CFLAGS

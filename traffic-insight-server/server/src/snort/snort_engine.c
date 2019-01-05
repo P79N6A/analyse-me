@@ -1146,6 +1146,7 @@ int snort_do_detect(void *tuple,void *data,int slDataLen,int slProtocol,void *et
 	 */
 	do_gather_base(data,slDataLen,slProtocol,addr,pstEthInfo,direction,pstConn);
 
+	#ifndef TRAFFIC_CMCC
 	/**
 	 * @brief 
 	 * 	do something else,such as analyse http log
@@ -1156,6 +1157,7 @@ int snort_do_detect(void *tuple,void *data,int slDataLen,int slProtocol,void *et
 	 * 	do something else,such as analyse email
 	 */
 	do_insight_email(data,slDataLen,slProtocol,addr,pstEthInfo,direction,pstConn);
-
+	#endif
+	
 	return RET_SUCCESS;
 }

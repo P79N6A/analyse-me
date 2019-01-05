@@ -7,10 +7,12 @@
 #include "record_db.h"
 #include "record_data.h"
 #include "log.h"
-#include <sqlite3.h>
 #include "snort_http.h"
 #include "snort_email.h"
 
+#ifndef TRAFFIC_CMCC
+
+#include <sqlite3.h>
 #define DATA_BASE_NAME "/etc/traffic-insight/traffic-insight.db"
 
 #define CREATE_TERM_RECORD_CMD  "create table record(id integer primary key,\
@@ -691,9 +693,16 @@ int do_update_email(void *pstemailInfo,void * ipc)
    
     return RET_SUCCESS;
 }
+#else
+int do_delete_overtime_term(void)
+{
+    return RET_SUCCESS;
+}
+#endif
 
 int virtual_db_init(void)
-{
+{   
+    #ifndef TRAFFIC_CMCC
 	if(access(DATA_BASE_NAME,R_OK) == 0)    /*数据库文件存在*/
     {
 		INFO("traffic-insight %s has been existing \n",DATA_BASE_NAME);
@@ -721,6 +730,7 @@ int virtual_db_init(void)
     
     INFO("traffic-insight Create database successful");
 	SAFE_DB_CLOSE(db);
+    #endif
 
     return RET_SUCCESS;
 }

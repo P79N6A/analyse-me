@@ -10,9 +10,12 @@
 
 static int do_smtp_action(int actionType,void *data)
 {
+    #ifndef TRAFFIC_CMCC
     //m_priv_t *pstPri	= ( m_priv_t *)data;
     printf("Get smtp start  data stream \n");
      return do_start_smtp(data);
+     #endif
+    return RET_FAILED;
 }
 
 PROTOCOL_CONTORL_INFO stSMTPCtrlInfo = {

@@ -3,7 +3,7 @@ include Makefile.mk
 
 .PHONY : all prepare libhttp libb64 libev libpcap libnet libnids traffi-server
 
-all: traffi-server
+all: server
     
 prepare:
 	@mkdir -p $(INSTALL_ROOT)
@@ -35,8 +35,11 @@ libnids:libnet libev
 		LNETLIB="-L$(INSTALL_LIB) -lnet" \
 		PCAPLIB="-L$(INSTALL_LIB) -lpcap" \
 		all install
-traffi-server:libnids  libb64 libhttp
+	cp libnids-1.24/config/* $(INSTALL_CONFIG)
+server:libnids
 	echo "Now start compile server"
+	$(MAKE) -C traffic-insight-server
+	tar -cf app.tar _install
 distclean:
 	-$(MAKE) -C http-parser-2.8.1  distclean 
 	-$(MAKE) -C libb64-1.2.1 distclean
@@ -45,10 +48,12 @@ distclean:
 clean:
 	@echo "-----------------clean start---------------------"
 	-rm -rf $(INSTALL_ROOT)
+	-rm -rf app.tar
 	-$(MAKE) -C http-parser-2.8.1  	clean 
 	-$(MAKE) -C libb64-1.2.1 		clean
 	-$(MAKE) -C libev-4.19 	 		clean
 	-$(MAKE) -C libnet-1.2-rc3 	 	clean
+	-$(MAKE) -C traffic-insight-server 	clean
 
 	@echo "-----------------clean end---------------------"
 ##	

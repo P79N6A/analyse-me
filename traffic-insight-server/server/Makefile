@@ -39,4 +39,5 @@ clean:
 
 install:
 	@echo "Nothing to do"
- 
+	cp $(INSTALL_DIR)/$(TARGET_APP)  $(INSTALL_BIN)
+	cp config/* $(INSTALL_CONFIG)

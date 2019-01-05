@@ -11,9 +11,12 @@
 
 static int do_imap4_action(int actionType,void *data)
 {
+    #ifndef TRAFFIC_CMCC
     //m_priv_t *pstPri	= ( m_priv_t *)data;
     printf("Get imap start  data stream \n");
      return do_start_imap(data);
+     #endif
+     return RET_FAILED;
 }
 
 PROTOCOL_CONTORL_INFO stIMAP4CtrlInfo = {
