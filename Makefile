@@ -44,6 +44,7 @@ distclean:
 	-$(MAKE) -C libev-4.19 	 distclean
 	-$(MAKE) -C libnet-1.2-rc3 	 distclean
 	-$(MAKE) -C libpcap-libpcap-1.4.0  	distclean 
+	-$(MAKE) -C libnids-1.24		distclean
 clean:
 	@echo "-----------------clean start---------------------"
 	-rm -rf $(INSTALL_ROOT)
@@ -54,7 +55,7 @@ clean:
 	-$(MAKE) -C libev-4.19 	 			clean
 	-$(MAKE) -C libnet-1.2-rc3 	 		clean
 	-$(MAKE) -C traffic-insight-server 	clean
-
+	-$(MAKE) -C libnids-1.24 			clean
 	@echo "-----------------clean end---------------------"
 ##	
 ##

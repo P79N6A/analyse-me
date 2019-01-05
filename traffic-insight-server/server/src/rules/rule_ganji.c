@@ -36,22 +36,51 @@ static int do_ganji_action(int actionType,void *data)
 #endif
 		skip_space(priv->prd);
 		ptr = priv->prd;
+		printf("r->ruleNum = %d \n",r->ruleNum);
+	
+		if(r->ruleNum == 1)
+		{
+			char strUid[32] = {0};
+			char strUn[128] = {0};
+			char *tmp = strstr(ptr,"&UN=");
+			//printf("Now get my new ganji rule:\n%s  \n",ptr);
 
-		while (*ptr != '&' && *ptr != ' ' && *ptr != '%' && *ptr != 0x0D && *ptr != 0x0A
+			if(tmp == NULL || ((size = (tmp - ptr)) > sizeof(strUid)))
+			{
+				return RET_FAILED;
+			}
+			memcpy(strUid,ptr,size);
+			do_record_data(strUid,size,priv);
+			tmp += strlen("&UN=");
+			ptr = strstr(tmp,"&TT");
+
+			if(ptr == NULL || ((size = (ptr - tmp)) > sizeof(strUn)))
+			{
+				return RET_FAILED;
+			}
+			memcpy(strUn,tmp,size);
+			do_record_data(strUn,size,priv);
+			return RET_SUCCESS;
+		}
+		else
+		{
+			while (*ptr != '&' && *ptr != ' ' && *ptr != '%' && *ptr != 0x0D && *ptr != 0x0A
 			&& *ptr != ',' && *ptr != '"' && *ptr != '\'' && *ptr != ';'
 			&& *ptr != 0 && size < GANJI_SIZE_MAX && ptr < priv->end)
 			ptr++, size++;
-		if (size > GANJI_NUMLEN_MIN && size < GANJI_SIZE_MAX
-			&& _is_all_digit(priv->prd, size, GANJI_SIZE_MAX)) {
-            
-            unsigned char buf[GANJI_SIZE_MAX] = {0};
-            memcpy(buf,priv->prd, size);
-            printf("ganji-->size:%d info:%s \n",size,buf);
-			do_record_data(buf,size,priv);
-			// priv->ptl->msg.mc_add(priv->ptl, GANJI
-			// 			, priv->prd, size, ip, mac);
-			return RET_SUCCESS;
+			if (size > GANJI_NUMLEN_MIN && size < GANJI_SIZE_MAX
+				&& _is_all_digit(priv->prd, size, GANJI_SIZE_MAX)) {
+				
+				unsigned char buf[GANJI_SIZE_MAX] = {0};
+				memcpy(buf,priv->prd, size);
+				printf("ganji-->size:%d info:%s \n",size,buf);
+				do_record_data(buf,size,priv);
+				// priv->ptl->msg.mc_add(priv->ptl, GANJI
+				// 			, priv->prd, size, ip, mac);
+				return RET_SUCCESS;
+			}
 		}
+		
 	}
 
 	return RET_FAILED;

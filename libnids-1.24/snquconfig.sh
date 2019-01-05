@@ -6,7 +6,7 @@ cp configure.row configure
 patch -p1 < patches/002-configure.patch
 echo "Now start config libnids"
 ./configure \
---target=mips-linux --host=mips-linux \
+--target=mipsel-openwrt-linux --host=mipsel-openwrt-linux \
 --enable-shared \
 --enable-static \
 --disable-libglib \

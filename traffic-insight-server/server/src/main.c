@@ -50,7 +50,7 @@ extern int email_test(void);
  */
 int acs_match_test(void)
 {
-    const char *strFileName = "/tmp/xml.bin";
+    const char *strFileName = "/tmp/ganji.bin";
     if(access(strFileName,R_OK) != 0)
     {
         printf("No input data \n");
@@ -103,7 +103,9 @@ int acs_match_test(void)
     struct tuple4 addr;
     struct ethhdr stEthInfo;
     addr.source = 60411;
-    addr.dest   = 8080;
+    addr.dest   = 80;
+    addr.saddr  = 0x0337a8c0;
+    addr.daddr  = 0x0337a8c0 + 1;
     NIDS_CONNTRACK_RECORD stConn;
     bzero(&stConn,sizeof(stConn));
     stConn.eDir = IP_CT_DIR_ORIGINAL;
@@ -143,11 +145,11 @@ int virtual_main(int mode,struct ev_loop *loop)
 
     //email_test();
     
-    //acs_match_test();
+    acs_match_test();
     
     init_heart_beat(loop);
 
-    daq_init(mode,loop);
+    //daq_init(mode,loop);
 
     return RET_SUCCESS;
 }

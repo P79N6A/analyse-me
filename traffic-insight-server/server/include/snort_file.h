@@ -177,7 +177,7 @@ typedef struct
 	const TARGET_TYPE_MAP *pstTargetMap;
     /*may need callback*/
 }RULE_TARGET_INFO;
-
+#define RULE_NUM_INVALID 0xffeeddcc
 typedef struct
 {
     RULE_HEAD_INFO   stRuleHeadInfo;
@@ -185,6 +185,7 @@ typedef struct
 	//struct list_head listContent;					 /*for RULE_CONTENT_INFO*/
     RULE_TARGET_INFO stTargetInfo;
     struct list_head listRule;                      /*for rule self*/
+	int ruleNum;
 	void			*ds_list[RESV_MAX];             /*pstContentMatch list*/
 }RULE_DETAIL_INFO;
 

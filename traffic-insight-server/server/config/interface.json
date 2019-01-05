@@ -2,7 +2,7 @@
     "name": "listen-if",
     "interface": [
         {
-            "if-name": "br-lan"
+            "if-name": "br0"
         }
     ]
 }

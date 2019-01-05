@@ -154,14 +154,14 @@ static int do_qq_action(int actionType,void *data)
 		#else
 		unsigned char *ucMatchData = (unsigned char *)pstPri->prd;
 		unsigned char ucNumLen 	   = *ucMatchData++;
-		INFO("Now get  qq numlen %d ",ucNumLen);
+		//INFO("Now get  qq numlen %d ",ucNumLen);
 		if((ucNumLen < (QQM_SIZE_MIN + 4)) || (ucNumLen > (QQM_SIZE_MAX + 4)))
 		{
 			return RET_FAILED;
 		}
 		ucNumLen -= 4;
 		memcpy(buf,ucMatchData,ucNumLen);
-		print("QQ num is %s \n",buf);
+		//print("QQ num is %s \n",buf);
 		if(_is_all_digit(buf, strlen(buf), QQM_SIZE_MAX))
 		{
 			return do_record_data(buf,strlen(buf),pstPri);

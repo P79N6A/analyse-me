@@ -240,7 +240,8 @@ static void nids_read_cb(struct ev_loop *loop, ev_io *w, int revents)
 
 int daq_init(int mode,struct ev_loop *loop)
 {
-    nids_params.device = stIfInfo.ifName;
+    nids_params.device 			= stIfInfo.ifName;
+	nids_params.n_tcp_streams 	= 10240; 
 	//nids_params.filename = "/tmp/check_imap.pcapng";
     if (!nids_init (loop))
     {

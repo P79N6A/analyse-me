@@ -249,6 +249,7 @@ tcp any any -> any 80 (content:".58.com|0D 0A|"; depth:1300; nocase; content:"&u
 
 # ganji
 tcp any any -> any 80 (content:"Host\: mobds.ganji.c"; depth:800; nocase; content:".ganji.com|0D 0A|"; depth:800; nocase; door; content:"ucenterUserID\: "; depth:800; nocase; record:0; content:"ucenterUserID="; depth:800; nocase; record:0; door; content:"\"user_id\"\:\""; depth:800; nocase; record:0; door; content:"&loginId="; depth:800; nocase; record:0; door; content:"UserID="; depth:800; nocase; record:0; door; content:"uid\: "; depth:800; nocase; record:0; door; content:"\"loginId\"\:\""; depth:800; nocase; record:0; door; content:"%22user_id%22%3A"; depth:800; nocase; record:0; door;) target RECORD GANJI
+tcp any any -> any 80 (content:"/api/log/api/log/trackaction";depth:100;content:"/api/log/api/app/addanalysis";depth:100;door;content:"/api/home/ganji/newindexinfo";depth:100;door;content:"ganji";depth:300;content:"58app";depth:1000;content:"PPU";depth:1000;content:"UID=";depth:1000;record:0;) target RECORD GANJI 1
 
 #smtp
 tcp any any -> any 25 (content:"EHLO";depth:20; nocase; record:0;) target RECORD SMTP

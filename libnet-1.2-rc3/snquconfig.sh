@@ -3,4 +3,4 @@
 --enable-shared \
 --enable-static \
 --prefix=$PWD/../_install \
---host=mips-buildroot-linux-uclibc
+--host=mipsel-openwrt-linux

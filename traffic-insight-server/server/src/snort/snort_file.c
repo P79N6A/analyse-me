@@ -692,13 +692,14 @@ parse_target(char *rule, RULE_DETAIL_INFO *pstRuleInfo, char *file)
 
 	tgt += RULE_TARGET_SIZ;
 	skip_space(tgt);
-	toks = msplit(tgt, " ", 2, &num_toks, 0);
+	toks = msplit(tgt, " ", 3, &num_toks, 0);
 	if (num_toks < 1)
 		fatal("%s(%d) => target is missing.", file, file_line);
 
 	//do_target(toks[0], toks[1], r, file);
     //record
     int i = 0;
+    pstRuleInfo->ruleNum = RULE_NUM_INVALID;
     RULE_TARGET_INFO *pstTargetInfo = &pstRuleInfo->stTargetInfo;
 
     //printf("action:%s type:%s \n",toks[0],toks[1]);
@@ -730,6 +731,12 @@ parse_target(char *rule, RULE_DETAIL_INFO *pstRuleInfo, char *file)
     if(i == (sizeof(stTargetTypeMap) / sizeof(stTargetTypeMap[0])))
     {
         fatal("%s(%s) => target is unknown.", file, toks[1]);
+    }
+   
+    if(num_toks == 3)
+    {
+        pstRuleInfo->ruleNum = atoi(toks[2]);
+        printf("Now get rule handle num name is %s num is %d \n",toks[1],pstRuleInfo->ruleNum);
     }
 	msplit_free(&toks, num_toks);
 

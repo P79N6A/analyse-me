@@ -2,7 +2,7 @@
 
 TARGET_APP          :=insight-server
 
-CORSS_COMPILE		:= /opt/mips-linux-uclibc-4.9.3/usr/bin/mips-buildroot-linux-uclibc-
+CORSS_COMPILE		:= mipsel-openwrt-linux-
 CC 					:=$(CORSS_COMPILE)gcc
 AR					:=$(CORSS_COMPILE)ar
 LD					:=$(CORSS_COMPILE)ld

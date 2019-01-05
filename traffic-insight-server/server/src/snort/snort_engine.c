@@ -910,7 +910,7 @@ do_unisearch(char *data, int dlen,
                           ct->pattern_size,
                           ct->skip_stride,
                           ct->shift_stride, pri, ct);
-	
+	//printf("pattern_buf:%s depth:%d nocase:%d ret:%d \n", ct->pattern_buf,depth,nocase,ret);
 	return ret == 0 ? RET_FAILED:RET_SUCCESS;
 }
 
@@ -971,7 +971,7 @@ out:
 
 static int acs_match_cb(void * id, void *tree, int index, void *data, void *neg_list)
 {
-	int ret = RET_SUCCESS + 1;  //nofound
+	int ret = RET_FAILED;  //nofound
 	pat_node_t	*pn				 	= id;
 	RULE_DETAIL_INFO *pstRuleInfo   = pn->pstRuleDetail;
 	m_priv_t		*priv 			= data;
@@ -995,7 +995,7 @@ static int acs_match_cb(void * id, void *tree, int index, void *data, void *neg_
 		pstConn->eSubType  |= SET_STREAM_ACTION(_STREAM_GATHER_BASE);
 		//printf("action is %s , %s handle success  \n",pstTagetInfo->strName,pstCtrlInfo->strName);
 	}
-	return ret;
+	return ret == RET_SUCCESS ? 1 : -1;
 }
 static inline int
 prepare_priv(m_priv_t *private, char *data, int dlen, void *r,struct ethhdr *pstEthInfo,struct tuple4 *addr,int direction)
@@ -1071,7 +1071,7 @@ static int do_gather_base(void *data,int slDataLen,int slProtocol,
 		CHECK_STREAM_ACTION(pstConn->eSubType,_STREAM_GATHER_BASE)
 		)
 	{
-		//printf("This stream base info is gathered,type is %d %d  \n",pstConn->eMainType,pstConn->eSubType);
+		printf("This stream base info is gathered,type is %d %d  \n",pstConn->eMainType,pstConn->eSubType);
 		return RET_SUCCESS;
 	}
 
@@ -1084,7 +1084,7 @@ static int do_gather_base(void *data,int slDataLen,int slProtocol,
 			return RET_FAILED;
 
 		private.pstconn = pstConn;
-		//printf("Line = %d rulNum = %d port %d\n",__LINE__,pstPortGroup->nrule,pstPortGroup->port);
+		printf("Line = %d rulNum = %d port %d\n",__LINE__,pstPortGroup->nrule,pstPortGroup->port);
 		return do_acs_match(pstPortGroup,data,slDataLen,&private);
 	}
 	return RET_FAILED;

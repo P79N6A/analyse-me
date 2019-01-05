@@ -1,6 +1,6 @@
 #!/bin/sh
 ./configure \
---target=mips-linux --host=mips-linux \
+--target=mipsel-openwrt-linux --host=mipsel-openwrt-linux \
 --enable-shared \
 --enable-static \
 --with-pcap=linux --without-septel --without-dag \
