@@ -1,4 +1,5 @@
 1.在make之前需要先进行配置
     a):进入libev-4.19执行snquconfig.sh
-    b):进入libnet-1.2-rc3执行snquconfig.sh,make libnet
-    c):进入libnids-1.243执行snquconfig.sh
+    b):进入libev-4.19执行snquconfig.sh, make libpcap
+    c):进入libnet-1.2-rc3执行snquconfig.sh,make libnet
+    d):进入libnids-1.243执行snquconfig.sh

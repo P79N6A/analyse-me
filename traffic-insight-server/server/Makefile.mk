@@ -16,4 +16,4 @@ SOURCE_DIR	:= 	$(CURDIR)/src \
 				
 CFLAGS 				:=-Wall -Winit-self  -Wformat=2  -O2 -D _COMPILE_MAIN_ -D _GNU_SOURCE -DHTTP_PARSER_STRICT=1 -D TRAFFIC_CMCC -I $(INSTALL_HEADER)
 						
-LDFLAGS 			:=  -L$(INSTALL_LIB)/ -lev -lnids -lm -lnet -lpcap
+LDFLAGS 			:=  -static -L$(INSTALL_LIB)/ -lev -lnids -lm -lnet -lpcap

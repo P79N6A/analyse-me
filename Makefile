@@ -24,9 +24,7 @@ libev:prepare
 	$(MAKE) -C libev-4.19
 	$(MAKE) -C libev-4.19 install
 libpcap:prepare
-	cp -rfd libpcap/*.so* $(INSTALL_LIB)
-	cp libpcap/pcap.h  $(INSTALL_HEADER)
-	cp libpcap/pcap/*  $(INSTALL_HEADER)/pcap
+	$(MAKE) -C libpcap-libpcap-1.4.0 all install
 libnet:libpcap
 	$(MAKE) -C libnet-1.2-rc3
 	$(MAKE) -C libnet-1.2-rc3 install
@@ -45,14 +43,16 @@ distclean:
 	-$(MAKE) -C libb64-1.2.1 distclean
 	-$(MAKE) -C libev-4.19 	 distclean
 	-$(MAKE) -C libnet-1.2-rc3 	 distclean
+	-$(MAKE) -C libpcap-libpcap-1.4.0  	distclean 
 clean:
 	@echo "-----------------clean start---------------------"
 	-rm -rf $(INSTALL_ROOT)
 	-rm -rf app.tar
-	-$(MAKE) -C http-parser-2.8.1  	clean 
-	-$(MAKE) -C libb64-1.2.1 		clean
-	-$(MAKE) -C libev-4.19 	 		clean
-	-$(MAKE) -C libnet-1.2-rc3 	 	clean
+	-$(MAKE) -C http-parser-2.8.1  		clean 
+	-$(MAKE) -C libb64-1.2.1 			clean
+	-$(MAKE) -C libpcap-libpcap-1.4.0  	clean 
+	-$(MAKE) -C libev-4.19 	 			clean
+	-$(MAKE) -C libnet-1.2-rc3 	 		clean
 	-$(MAKE) -C traffic-insight-server 	clean
 
 	@echo "-----------------clean end---------------------"
