@@ -11,7 +11,7 @@
 #define _SNORT_POROTOCOL_H_
 #include "im_config.h"
 #include "log.h"
-
+#include "snort_file.h"
 
 typedef int (*protoAction)(int actionType,void *data);
 typedef int (*protoGetMsg)(void *buf,int slDataLen);          //get row message info 

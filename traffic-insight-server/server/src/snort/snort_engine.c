@@ -2,7 +2,7 @@
  * @Author: jiamu 
  * @Date: 2018-10-09 14:54:17 
  * @Last Modified by: jiamu
- * @Last Modified time: 2018-10-30 19:38:05
+ * @Last Modified time: 2019-01-07 15:45:18
  */
 
 #include "snort_engine.h"
@@ -893,7 +893,7 @@ do_unisearch(char *data, int dlen,
 
     /* make sure we and in range */
     if (!in_bounds(start_ptr, end_ptr, base_ptr + depth - 1)) {
-		print("returning because base_ptr + depth - 1"
+		printf("returning because base_ptr + depth - 1"
              " is out of bounds start_ptr: %p end: %p base: %p\n",
              start_ptr, end_ptr, base_ptr);
         return 0;
@@ -1071,7 +1071,7 @@ static int do_gather_base(void *data,int slDataLen,int slProtocol,
 		CHECK_STREAM_ACTION(pstConn->eSubType,_STREAM_GATHER_BASE)
 		)
 	{
-		printf("This stream base info is gathered,type is %d %d  \n",pstConn->eMainType,pstConn->eSubType);
+		//printf("This stream base info is gathered,type is %d %d  \n",pstConn->eMainType,pstConn->eSubType);
 		return RET_SUCCESS;
 	}
 
@@ -1084,7 +1084,7 @@ static int do_gather_base(void *data,int slDataLen,int slProtocol,
 			return RET_FAILED;
 
 		private.pstconn = pstConn;
-		printf("Line = %d rulNum = %d port %d\n",__LINE__,pstPortGroup->nrule,pstPortGroup->port);
+		//printf("Line = %d rulNum = %d port %d\n",__LINE__,pstPortGroup->nrule,pstPortGroup->port);
 		return do_acs_match(pstPortGroup,data,slDataLen,&private);
 	}
 	return RET_FAILED;

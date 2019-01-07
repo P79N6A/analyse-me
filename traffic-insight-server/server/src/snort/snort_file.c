@@ -2,7 +2,7 @@
  * @Author: jiamu 
  * @Date: 2018-09-29 17:37:22 
  * @Last Modified by: jiamu
- * @Last Modified time: 2018-11-12 21:02:23
+ * @Last Modified time: 2019-01-07 17:02:27
  */
 
 #include "snort_file.h"
@@ -66,6 +66,12 @@ extern PROTOCOL_CONTORL_INFO stHttpCtrlInfo;
 extern PROTOCOL_CONTORL_INFO stSMTPCtrlInfo;
 extern PROTOCOL_CONTORL_INFO stIMAP4CtrlInfo;
 extern PROTOCOL_CONTORL_INFO stPOPCtrlInfo;
+extern PROTOCOL_CONTORL_INFO stMALACtrlInfo;
+extern PROTOCOL_CONTORL_INFO stBAOFENGCtrlInfo;
+extern PROTOCOL_CONTORL_INFO stFEIZHUCtrlInfo ;
+extern PROTOCOL_CONTORL_INFO stDOUYUCtrlInfo;
+extern PROTOCOL_CONTORL_INFO stYOUKUCtrlInfo ;
+extern PROTOCOL_CONTORL_INFO stMEIPAICtrlInfo;
 
 CHECK_RULE_INFO  stCheckRuleInfo[]=
 {
@@ -120,7 +126,12 @@ static TARGET_TYPE_MAP const stTargetTypeMap[] =
     {"SMTP",_TARGET_SMTP,&stSMTPCtrlInfo},  
     {"IMAP4",_TARGET_IMAP4,&stIMAP4CtrlInfo},   
     {"POP3",_TARGET_POP3,&stPOPCtrlInfo},   
-       
+    {"MALASHEQU",_TARGET_MALASHEQU,&stMALACtrlInfo},
+    {"BAOFENG",_TARGET_BAOFENG,&stBAOFENGCtrlInfo},
+    {"FEIZHU",_TARGET_FEIZHU,&stFEIZHUCtrlInfo},
+    {"DOUYU",_TARGET_DOUYU,&stDOUYUCtrlInfo},
+    {"YOUKU",_TARGET_YOUKU,&stYOUKUCtrlInfo},
+    {"MEIPAI",_TARGET_MEIPAI,&stMEIPAICtrlInfo},
 };
 
 #define malloc_assert(type, size) ({\

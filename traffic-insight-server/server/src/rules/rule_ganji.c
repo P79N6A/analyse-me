@@ -36,7 +36,7 @@ static int do_ganji_action(int actionType,void *data)
 #endif
 		skip_space(priv->prd);
 		ptr = priv->prd;
-		printf("r->ruleNum = %d \n",r->ruleNum);
+		//printf("r->ruleNum = %d \n",r->ruleNum);
 	
 		if(r->ruleNum == 1)
 		{

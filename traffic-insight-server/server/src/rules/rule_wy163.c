@@ -2,7 +2,7 @@
  * @Author: jiamu 
  * @Date: 2018-10-17 16:45:19 
  * @Last Modified by: jiamu
- * @Last Modified time: 2018-10-17 19:39:10
+ * @Last Modified time: 2019-01-06 13:34:02
  */
 
 #include "protocol.h"
@@ -52,6 +52,7 @@ static int do_wy163_action(int actionType,void *data)
 			// 			, priv->prd, size + WY163_POSTFIXSIZ, ip, mac);
             memcpy(buf,priv->prd, size + WY163_POSTFIXSIZ);
             printf("WY163-->size:%d info:%s \n",size + WY163_POSTFIXSIZ,buf);
+			do_record_data(buf,size + WY163_POSTFIXSIZ,priv);
 			return 0;
 		} else if (size && size < WY163_SIZE_MAX 
 			&& (!memcmp(ptr, WY163_ENCODE_POSTFIX, WY163_ENCODE_POSTFIXSIZ)

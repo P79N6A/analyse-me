@@ -2,7 +2,7 @@
  * @Author: jiamu 
  * @Date: 2018-09-29 17:36:35 
  * @Last Modified by: jiamu
- * @Last Modified time: 2018-11-12 20:12:19
+ * @Last Modified time: 2019-01-07 17:01:41
  */
 
 
@@ -71,6 +71,12 @@ typedef enum {
 	_TARGET_SMTP,
 	_TARGET_IMAP4,
 	_TARGET_POP3,
+	_TARGET_MALASHEQU,
+	_TARGET_BAOFENG,
+	_TARGET_FEIZHU,
+	_TARGET_DOUYU,
+	_TARGET_YOUKU,
+	_TARGET_MEIPAI,
 	_TARGET_MAX,	// max is 31
 } ENUM_TARGET_TYPE;
 

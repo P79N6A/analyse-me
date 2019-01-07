@@ -2,7 +2,7 @@
  * @Author: jiamu 
  * @Date: 2018-10-17 20:03:10 
  * @Last Modified by: jiamu
- * @Last Modified time: 2018-11-15 18:15:33
+ * @Last Modified time: 2019-01-06 19:53:29
  */
 
 #include "record_data.h"
@@ -1451,4 +1451,5 @@ int email_test(void)
     bzero(&stEmailInfo,sizeof(stEmailInfo));
 	return parse_email("/tmp/email_tmp/email_1c1b0dacca3d_16-20-25",_EMAIL_IMAP,&stEmailInfo);
 	#endif
+	return RET_SUCCESS;
 }	

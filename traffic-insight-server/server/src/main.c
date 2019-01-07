@@ -2,7 +2,7 @@
  * @Author: jiamu 
  * @Date: 2018-09-27 13:53:29 
  * @Last Modified by: jiamu
- * @Last Modified time: 2018-11-15 17:15:51
+ * @Last Modified time: 2019-01-07 20:31:34
  */
 
 #include <sys/types.h>          /* See NOTES */
@@ -50,7 +50,7 @@ extern int email_test(void);
  */
 int acs_match_test(void)
 {
-    const char *strFileName = "/tmp/ganji.bin";
+    const char *strFileName = "/tmp/baofeng_qq.bin";
     if(access(strFileName,R_OK) != 0)
     {
         printf("No input data \n");
@@ -116,6 +116,7 @@ int acs_match_test(void)
     snort_do_detect(&addr,ucFileData,
             stFileInfo.st_size,IPPROTO_TCP,&stEthInfo,&stConn);
     free(ucFileData);
+    printf("line = %d \n",__LINE__);
     return RET_SUCCESS;
 }
 /**
@@ -149,7 +150,7 @@ int virtual_main(int mode,struct ev_loop *loop)
     
     init_heart_beat(loop);
 
-    //daq_init(mode,loop);
+    daq_init(mode,loop);
 
     return RET_SUCCESS;
 }

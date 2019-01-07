@@ -2,7 +2,7 @@
  * @Author: jiamu 
  * @Date: 2018-10-17 18:12:42 
  * @Last Modified by: jiamu
- * @Last Modified time: 2018-10-17 18:17:50
+ * @Last Modified time: 2019-01-06 14:11:41
  */
 #include "protocol.h"
 #include "snort_content.h"
@@ -20,6 +20,7 @@
 static int do_m139_action(int actionType,void *data)
 {
     m_priv_t *priv	= data;
+    printf("I get one M139 stream \n");
     if (priv->prd) {
     int			size = 0;
     const char	*ptr;
@@ -35,7 +36,7 @@ static int do_m139_action(int actionType,void *data)
     skip_space(priv->prd);
     ptr = priv->prd;
 
-    while (*ptr != ' ' && *ptr != ';' && *ptr != '&'
+    while (*ptr != ' ' && *ptr != ';' && *ptr != '&' && *ptr != ',' && *ptr != '<'
         && *ptr != 0 && size < M139_SIZE_MAX && ptr < priv->end)
         ptr++, size++;
     if (size && size < M139_SIZE_MAX && size == M139_VALID_NUM) {

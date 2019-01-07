@@ -2,7 +2,7 @@
  * @Author: jiamu 
  * @Date: 2018-09-27 15:19:49 
  * @Last Modified by: jiamu
- * @Last Modified time: 2018-11-15 17:18:12
+ * @Last Modified time: 2019-01-07 15:44:34
  */
 
 
@@ -164,8 +164,9 @@ void udp_callback(struct tuple4 * addr, char * buf, int len, struct ip * iph,voi
 
 	if(set_stream_dir(addr,pstConn) < 0)
 	{
-		printf(
+		print(
 		     "Not lan stream src:%08x dst:%08x \n", addr->saddr,addr->daddr);
+			 return;
 	}
 
 	// fprintf (stderr,"Udp message data id -->%d diris:%s\n"
@@ -242,6 +243,8 @@ int daq_init(int mode,struct ev_loop *loop)
 {
     nids_params.device 			= stIfInfo.ifName;
 	nids_params.n_tcp_streams 	= 10240; 
+	//nids_params.filename   		= "/tmp/139_4.pcapng";
+	//printf("Now start handle %s \n",nids_params.filename);
 	//nids_params.filename = "/tmp/check_imap.pcapng";
     if (!nids_init (loop))
     {

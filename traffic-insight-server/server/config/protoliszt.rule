@@ -39,6 +39,9 @@ tcp any any -> any 443  (content:"uin="; depth:1500; nocase; record:0;) target R
 tcp any any -> any 80  (content:"userId=cnhhupan"; depth:500; nocase; record:0;) target RECORD ALIWX
 tcp any any -> any 80  (content:"user_id=cnhhupan"; depth:500; nocase; record:0;) target RECORD ALIWX
 
+#feizhu
+tcp any any -> any 80 (content:"/api/user/getUser.json"; depth:50;nocase;content:"wxapi.taobao.com"; depth:200;nocase;content:"&user_id="; depth:700;nocase;record:0;) target RECORD FEIZHU
+
 # TAOBAO
 tcp any any -> any 443  (content:"loginId=cntaobao"; depth:500; nocase; record:0;) target RECORD TAOBAO
 tcp any any -> any 80  (content:"user_id=cntaobao"; depth:500; nocase; record:0;) target RECORD TAOBAO
@@ -104,7 +107,7 @@ tcp any any -> any 9212 (content:"/imageserv?ID="; depth:500; nocase; record:0; 
 tcp any any -> any 80 (content:"&UserNumber="; depth:500; nocase; record:0; content:".mail.10086.cn|0D 0A|"; depth:1300;) target RECORD M139
 tcp any any -> any 80 (content:"<getDiskInfo><MSISDN>"; depth:500; nocase; record:0;) target RECORD M139
 tcp any any -> any 80 (content:"&cellphone="; depth:500; nocase; record:0; content:"Host\: pushemail.10086.cn|0D 0A|"; depth:1300;) target RECORD M139
-
+tcp any any -> any 7700 (content:"/rsv/deviceBind"; depth:50;nocase; content:"pnsmsg-svr.mail.10086.cn"; depth:600;nocase;content:"<uid>";depth:1100;nocase;record:0;) target RECORD M139 1
 #mobile browser
 tcp any any -> any 80 (content:"tianya.cn|0d0a|"; depth:500; nocase; content:"bbs.tianya.cn%2Fm%2F"; depth:500; nocase; door; content:"user=w="; depth:1200; distance:1; record:0;) target RECORD TY
 #app
@@ -158,6 +161,8 @@ tcp any any -> any 80 (content:"pin="; depth:900; record:0; nocase; content:".m.
 tcp any any -> any 80 (content:"\{|0A|  \"uid\" \: \""; depth:500; nocase; record:0;) target RECORD XC
 tcp any any -> any 80 (content:"    \"UserIdentity\" \: \","; depth:300; nocase; record:0;) target RECORD XC
 tcp any any -> any 80 (content:"GET /restapi/h5api/searchapp/"; depth:150; content:"&userid="; depth:300; record:0;) target RECORD XC
+tcp any any -> any any (content:"|20 20 20 20 20|";depth:5;nocase;record:0;content:"|06 e6 88 90 e5 8a 9f|";eoffset:7;;nocase;) target RECORD XC 1
+
 # pc login_uid
 tcp any any -> any 80 (content:"LoginStatus="; depth:500; content:"login_uid="; depth:1000; record:0;) target RECORD XC
 # andriod app
@@ -172,9 +177,10 @@ tcp any any -> any 80 (content:"%26uid%3D"; depth:600; record:0; content:"m.ctri
 tcp any any -> any 80 (content:"Host\: user.qunar.com|0d0a|"; depth:500; nocase; content:"QN42="; depth:1500; record:0;) target RECORD QUNAR
 # andriod app
 tcp any any -> any 80 (content:"http\://pitcher.corp.qunar.com"; depth:500; nocase; content:"\"usid\"\:\""; depth:1500; record:0;) target RECORD QUNAR
+tcp any any -> any 80 (content:".qunar.com"; depth:500; nocase;content:"Cookie\:"; depth:1000; nocase;content:"_q=U."; depth:1000; nocase;record:0;) target RECORD QUNAR 1
 # mobile browser
 tcp any any -> any 80 (content:"\"usid\"\:\""; depth:1300; record:0;  content:"Host\: exbizcom.qunar.com"; depth:1500; nocase;) target RECORD QUNAR
-#tcp any any -> any 80 (content:"Host\: touch.qunar.com"; depth:500; content:"_q=U."; depth:1500; nocase; record:0;) target RECORD QUNAR
+tcp any any -> any 80 (content:"Host\: bc.qunar.com"; depth:1000; content:"touch.qunar.com"; depth:1000;door;content:"_q=U."; depth:1500; nocase; record:0;) target RECORD QUNAR
 # ios app
 tcp any any -> any 80 (content:"Host\: client.qunar.com"; depth:500; nocase; content:"usid%22%3A%22"; depth:1500; record:0;) target RECORD QUNAR
 
@@ -221,6 +227,9 @@ tcp any any -> any 80 (content:"http\://h5.vip.com/"; depth:600; nocase; content
 tcp any any -> any 80 (content:".meituan.net\\/deal\\/"; depth:1000; nocase; content:"%26mtuser_id%3D"; depth:1100; nocase; record:0;) target RECORD MEITUAN
 tcp any any -> any 80 (content:"&utm_content="; depth:1000; nocase; content:"&utm_campaign=AgroupBgroup"; depth:1000; nocase; door; content:"&userid="; depth:1100; nocase; record:0;) target RECORD MEITUAN
 tcp any any -> any 80 (content:"http\://i.meituan.com/"; depth:1000; nocase; content:".meituan.com|0D 0A|"; depth:1000; nocase; door; content:"\; u="; depth:1500; nocase; record:0; content:"&userid="; depth:1500; nocase; record:0; door;) target RECORD MEITUAN
+#meituanwaimai
+tcp any any -> any 80 (content:"&wm_actual_longitude="; depth:1000; nocase; content:"&wm_actual_latitude="; depth:1000; nocase; content:"&wm_visitid="; depth:1500; nocase;  content:"&userid="; depth:1500; nocase; record:0;) target RECORD MEITUAN
+
 
 # dianping
 # web (user name)
@@ -241,15 +250,42 @@ tcp any any -> any 80 (content:".kuaidadi.com"; depth:800; nocase; content:"\"mo
 tcp any any -> any 80 (content:".taxifast.com.cn%2F"; depth:800; nocase; content:"%26mob%3D"; depth:800; nocase; record:0;) target RECORD KUAIDI
 tcp any any -> any 80 (content:".taxifast.com.cn/taxi"; depth:800; nocase; content:"Get /taxi/web/p/"; depth:800; nocase; door; content:"&mob="; depth:800; nocase; record:0;) target RECORD KUAIDI
 
+# ganji
+tcp any any -> any 80 (content:"Host\: mobds.ganji.c"; depth:800; nocase; content:".ganji.com|0D 0A|"; depth:800; nocase; door; content:"ucenterUserID\: "; depth:800; nocase; record:0; content:"ucenterUserID="; depth:800; nocase; record:0; door; content:"\"user_id\"\:\""; depth:800; nocase; record:0; door; content:"&loginId="; depth:800; nocase; record:0; door; content:"UserID="; depth:800; nocase; record:0; door; content:"uid\: "; depth:800; nocase; record:0; door; content:"\"loginId\"\:\""; depth:800; nocase; record:0; door; content:"%22user_id%22%3A"; depth:800; nocase; record:0; door;) target RECORD GANJI
+tcp any any -> any 80 (content:"/api/log/api/log/trackaction";depth:100;content:"/api/log/api/app/addanalysis";depth:100;door;content:"/api/home/ganji/newindexinfo";depth:100;door;content:"ganji";depth:500;content:"58app";depth:1000;content:"PPU";depth:1000;content:"UID=";depth:1000;record:0;) target RECORD GANJI 1
+
 # 58 TONGCHENG
 # mob web
 tcp any any -> any 80 (content:"&UN="; depth:1300; record:0; content:".58.com|0D 0A|"; depth:1300; nocase;) target RECORD TC58
 # app
 tcp any any -> any 80 (content:".58.com|0D 0A|"; depth:1300; nocase; content:"&username="; depth:1300; nocase; record:0; content:"&UN="; depth:1300; nocase; record:0; door;) target RECORD TC58
+tcp any any -> any 80 (content:"/api/home/app/newindexinfo";depth:100;content:"58ua\: 58app";depth:1000;door;content:"PPU";depth:1000;content:"UID=";depth:1000;record:0;content:"com.wuba";depth:1300;nocase;) target RECORD TC58 1
 
-# ganji
-tcp any any -> any 80 (content:"Host\: mobds.ganji.c"; depth:800; nocase; content:".ganji.com|0D 0A|"; depth:800; nocase; door; content:"ucenterUserID\: "; depth:800; nocase; record:0; content:"ucenterUserID="; depth:800; nocase; record:0; door; content:"\"user_id\"\:\""; depth:800; nocase; record:0; door; content:"&loginId="; depth:800; nocase; record:0; door; content:"UserID="; depth:800; nocase; record:0; door; content:"uid\: "; depth:800; nocase; record:0; door; content:"\"loginId\"\:\""; depth:800; nocase; record:0; door; content:"%22user_id%22%3A"; depth:800; nocase; record:0; door;) target RECORD GANJI
-tcp any any -> any 80 (content:"/api/log/api/log/trackaction";depth:100;content:"/api/log/api/app/addanalysis";depth:100;door;content:"/api/home/ganji/newindexinfo";depth:100;door;content:"ganji";depth:300;content:"58app";depth:1000;content:"PPU";depth:1000;content:"UID=";depth:1000;record:0;) target RECORD GANJI 1
+#mala 
+#android app
+tcp any any -> any 80 (content:"api?name="; depth:50; record:0; content:"&token="; depth:100; nocase;content:"pro.mala.cn"; depth:200; nocase;) target RECORD MALASHEQU 1
+
+#baofeng
+tcp any any -> any 80 (content:"/new/api/get_msgcode"; depth:50;nocase;content:"&mobile="; depth:100; nocase;record:0;content:".baofeng.net"; depth:500; nocase;) target RECORD BAOFENG 1
+tcp any any -> any 80 (content:"/new/user/check_normal_login"; depth:50;nocase;content:"username="; depth:100; nocase;record:0;content:".baofeng.net"; depth:500; nocase;) target RECORD BAOFENG 1
+tcp any any -> any 80 (content:".baofeng.net"; depth:200;nocase;content:"bfmbind="; depth:500; nocase;record:0;) target RECORD BAOFENG 1
+tcp any any -> any 80 (content:"third_uid=";depth:100;nocase;content:"&third_uname=";depth:100;nocase;content:"&third_type=";depth:200;nocase;record:0;content:".baofeng.net"; depth:1000; nocase;) target RECORD BAOFENG 2
+tcp any any -> any 80 (content:"logger.php"; depth:50;nocase;content:"%22uid%22"; depth:200; nocase;record:0;content:"%22userid%22"; depth:500; nocase;content:".baofeng.com"; depth:1400; nocase;) target RECORD BAOFENG 3
+#tcp any any -> any 80 (content:"logger.php"; depth:50;nocase;content:"&uid"; depth:200; nocase;record:0;content:".baofeng.com"; depth:1000; nocase;) target RECORD BAOFENG 3
+
+
+#douyu
+tcp any any -> any any (content:"type@="; depth:300;nocase;content:"uid@="; depth:300;nocase;record:0;content:"douyucdn2.cn"; depth:500;nocase;) target RECORD DOUYU 1
+tcp any any -> any any (content:"loginreq"; depth:50;nocase;content:"username@="; depth:100;nocase;record:0;content:"password@="; depth:200;nocase;content:"roomid@="; depth:200;nocase;) target RECORD DOUYU 1
+#video
+tcp any any -> any 80  (content:"/live/"; depth:50;nocase;content:"&nlimit="; depth:300;nocase;content:"&u="; depth:500;nocase;record:0;content:"douyucdn"; depth:500;nocase;) target RECORD DOUYU 2
+
+
+#youku
+tcp any any -> any 80 (content:"&ytid="; depth:200;nocase;record:0;content:".youku.com"; depth:500;nocase;) target RECORD YOUKU 1
+
+#meipai
+tcp any any -> any 80 (content:"www.meipai.com"; depth:500;nocase;content:"uid="; depth:500;nocase;record:0;) target RECORD MEIPAI 1
 
 #smtp
 tcp any any -> any 25 (content:"EHLO";depth:20; nocase; record:0;) target RECORD SMTP
